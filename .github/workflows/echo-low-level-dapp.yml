@@ -1,0 +1,76 @@
+# yaml-language-server: =https://json.schemastore.org/github-workflow.json
+---
+name: "Build echo-low-level DApp"
+on:
+    pull_request:
+        paths:
+            - "docker/**"
+            - "docker-compose*.yml"
+            - "base.hcl"
+            - ".github/workflows/dapp-build.yml"
+            - ".github/workflows/echo-low-level-dapp.yml"
+            - "echo-low-level/**"
+            - "!**/*.md"
+            - "frontend-console/**"
+            - "integration-tests/**"
+    push:
+        tags:
+            - v*
+        branches:
+            - develop
+jobs:
+    build:
+        uses: ./.github/workflows/dapp-build.yml
+        with:
+            dapp-name: echo-low-level
+        secrets: inherit
+    test:
+        needs: build
+        runs-on: ubuntu-20.04
+        steps:
+            - name: "Checkout"
+              uses: actions/checkout@v3
+              with:
+                  submodules: recursive
+                  token: ${{ secrets.CI_TOKEN }}
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 14
+
+            - name: Login to GitHub Container Registry
+              uses: docker/login-action@v2
+              with:
+                  registry: ghcr.io
+                  username: ${{ github.actor }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Run tests
+              env:
+                  DAPP_IMAGE: ${{ needs.build.outputs.dapp-image }}
+              run: |
+                  yarn install
+                  yarn test:ci echo-low-level --verbose
+              working-directory: ./integration-tests
+
+            - name: Save docker logs
+              if: always()
+              run: |
+                  yarn saveLogs echo-low-level hardhat
+                  yarn saveLogs echo-low-level dispatcher
+                  yarn saveLogs echo-low-level state_server
+                  yarn saveLogs echo-low-level server_manager
+                  yarn saveLogs echo-low-level inspect_server
+                  yarn saveLogs echo-low-level indexer
+                  yarn saveLogs echo-low-level graphql_server
+                  yarn saveLogs echo-low-level database
+                  yarn saveLogs echo-cpp advance_runner
+              working-directory: ./integration-tests
+
+            - name: Upload docker logs
+              if: always()
+              uses: actions/upload-artifact@master
+              with:
+                  name: echo-low-level-test-logs
+                  path: ./integration-tests/logs/

@@ -1,0 +1,78 @@
+# yaml-language-server: =https://json.schemastore.org/github-workflow.json
+---
+name: "Build echo-python DApp"
+on:
+    workflow_dispatch:
+    pull_request:
+        paths:
+            - "docker/**"
+            - "docker-compose*.yml"
+            - "base.hcl"
+            - ".github/workflows/dapp-build.yml"
+            - ".github/workflows/echo-python-dapp.yml"
+            - "echo-python/**"
+            - "!**/*.md"
+            - "frontend-console/**"
+            - "integration-tests/**"
+    push:
+        tags:
+            - v*
+        branches:
+            - develop
+jobs:
+    build:
+        uses: ./.github/workflows/dapp-build.yml
+        with:
+            dapp-name: echo-python
+        secrets: inherit
+
+    test:
+        needs: build
+        runs-on: ubuntu-20.04
+        steps:
+            - name: "Checkout"
+              uses: actions/checkout@v3
+              with:
+                  submodules: recursive
+                  token: ${{ secrets.CI_TOKEN }}
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 14
+
+            - name: Login to GitHub Container Registry
+              uses: docker/login-action@v2
+              with:
+                  registry: ghcr.io
+                  username: ${{ github.actor }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Run tests
+              env:
+                  DAPP_IMAGE: ${{ needs.build.outputs.dapp-image }}
+              run: |
+                  yarn install
+                  yarn test:ci echo-python --verbose
+              working-directory: ./integration-tests/
+
+            - name: Save docker logs
+              if: always()
+              run: |
+                  yarn saveLogs echo-python hardhat
+                  yarn saveLogs echo-python dispatcher
+                  yarn saveLogs echo-python state_server
+                  yarn saveLogs echo-python server_manager
+                  yarn saveLogs echo-python inspect_server
+                  yarn saveLogs echo-python indexer
+                  yarn saveLogs echo-python graphql_server
+                  yarn saveLogs echo-python database
+                  yarn saveLogs echo-python advance_runner
+              working-directory: ./integration-tests
+
+            - name: Upload docker logs
+              if: always()
+              uses: actions/upload-artifact@master
+              with:
+                  name: echo-python-test-logs
+                  path: ./integration-tests/logs/

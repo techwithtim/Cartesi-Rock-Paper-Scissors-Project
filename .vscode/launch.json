@@ -1,0 +1,105 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "env": {
+                "ROLLUP_HTTP_SERVER_URL": "http://127.0.0.1:5004"
+            },
+            "cwd": "${workspaceFolder}/echo-python",
+            "name": "Echo Python DApp",
+            "type": "python",
+            "request": "launch",
+            "python": "${workspaceFolder}/echo-python/.venv/bin/python3",
+            "program": "echo.py",
+            "gevent": false,
+        },
+        {
+            "env": {
+                "ROLLUP_HTTP_SERVER_URL": "http://127.0.0.1:5004"
+            },
+            "cwd": "${workspaceFolder}/calculator",
+            "name": "Calculator DApp",
+            "type": "python",
+            "request": "launch",
+            "python": "${workspaceFolder}/calculator/.venv/bin/python3",
+            "program": "calculator.py",
+            "gevent": false,
+        },
+        {
+            "env": {
+                "ROLLUP_HTTP_SERVER_URL": "http://127.0.0.1:5004"
+            },
+            "cwd": "${workspaceFolder}/converter",
+            "name": "Converter DApp",
+            "type": "python",
+            "request": "launch",
+            "python": "${workspaceFolder}/converter/.venv/bin/python3",
+            "program": "converter.py",
+            "gevent": false,
+        },
+        {
+            "env": {
+                "ROLLUP_HTTP_SERVER_URL": "http://127.0.0.1:5004"
+            },
+            "cwd": "${workspaceFolder}/sqlite",
+            "name": "SQLite DApp",
+            "type": "python",
+            "request": "launch",
+            "python": "${workspaceFolder}/sqlite/.venv/bin/python3",
+            "program": "sqlite.py",
+            "gevent": false,
+        },
+        {
+            "env": {
+                "ROLLUP_HTTP_SERVER_URL": "http://127.0.0.1:5004"
+            },
+            "cwd": "${workspaceFolder}/knn",
+            "name": "k-NN DApp",
+            "type": "python",
+            "request": "launch",
+            "python": "${workspaceFolder}/knn/.venv/bin/python3",
+            "program": "knn.py",
+            "gevent": false,
+        },
+        {
+            "env": {
+                "ROLLUP_HTTP_SERVER_URL": "http://127.0.0.1:5004"
+            },
+            "cwd": "${workspaceFolder}/m2cgen",
+            "name": "m2cgen DApp",
+            "type": "python",
+            "request": "launch",
+            "python": "${workspaceFolder}/m2cgen/.venv/bin/python3",
+            "program": "m2cgen.py",
+            "gevent": false,
+        },
+        {
+            "env": {
+                "ROLLUP_HTTP_SERVER_URL": "http://127.0.0.1:5004",
+                "NETWORK":"localhost"
+            },
+            "cwd": "${workspaceFolder}/erc20",
+            "name": "ERC-20 DApp",
+            "type": "python",
+            "request": "launch",
+            "python": "${workspaceFolder}/erc20/.venv/bin/python3",
+            "program": "erc20.py",
+            "gevent": false,
+        },
+        {
+            "env": {
+                "ROLLUP_HTTP_SERVER_URL": "http://127.0.0.1:5004",
+                "NETWORK":"localhost"
+            },
+            "cwd": "${workspaceFolder}/auction",
+            "name": "Auction DApp",
+            "type": "python",
+            "request": "launch",
+            "python": "${workspaceFolder}/auction/.venv/bin/python3",
+            "module": "auction.dapp"
+        }
+    ]
+}

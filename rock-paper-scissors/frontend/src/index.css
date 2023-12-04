@@ -1,0 +1,46 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+        "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
+}
+
+.challenge {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    flex: 1;
+    width: 33%;
+    align-items: center;
+}
+
+.challenges {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.center {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.challengeForm {
+    padding: 20px;
+    text-align: center;
+}
+
+button {
+    margin-top: 10px;
+}

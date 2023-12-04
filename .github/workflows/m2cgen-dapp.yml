@@ -1,0 +1,24 @@
+# yaml-language-server: =https://json.schemastore.org/github-workflow.json
+---
+name: "Build m2cgen DApp"
+on:
+    pull_request:
+        paths:
+            - "docker/**"
+            - "docker-compose*.yml"
+            - "base.hcl"
+            - ".github/workflows/dapp-build.yml"
+            - ".github/workflows/m2cgen-dapp.yml"
+            - "m2cgen/**"
+            - "!**/*.md"
+    push:
+        tags:
+            - v*
+        branches:
+            - develop
+jobs:
+    build:
+        uses: ./.github/workflows/dapp-build.yml
+        with:
+            dapp-name: m2cgen
+        secrets: inherit

@@ -1,0 +1,24 @@
+# yaml-language-server: =https://json.schemastore.org/github-workflow.json
+---
+name: "Build sqlite DApp"
+on:
+    pull_request:
+        paths:
+            - "docker/**"
+            - "docker-compose*.yml"
+            - "base.hcl"
+            - ".github/workflows/dapp-build.yml"
+            - ".github/workflows/sqlite-dapp.yml"
+            - "sqlite/**"
+            - "!**/*.md"
+    push:
+        tags:
+            - v*
+        branches:
+            - develop
+jobs:
+    build:
+        uses: ./.github/workflows/dapp-build.yml
+        with:
+            dapp-name: sqlite
+        secrets: inherit

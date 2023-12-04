@@ -1,0 +1,4 @@
+dist
+generated-src
+node_modules
+.vscode

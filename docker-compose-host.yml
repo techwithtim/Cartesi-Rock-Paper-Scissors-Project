@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  server_manager:
+    image: cartesi/rollups-host-runner:1.0.0
+    ports:
+      - "5004:5004"
+    environment:
+      - RUST_LOG=warn
+
+  advance_runner:
+    environment:
+      - SNAPSHOT_ENABLED=false
+
+  deployer:
+    command: [
+        "create",
+        "--rpc",
+        "http://hardhat:8545",
+        "--deploymentFile",
+        "/opt/cartesi/share/deployments/localhost.json",
+        "--mnemonic",
+        "test test test test test test test test test test test junk",
+        # template hash is not relevant in host mode, so we can specify hash zero
+        "--templateHash",
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "--outputFile",
+        "/deployments/localhost/dapp.json",
+      ]

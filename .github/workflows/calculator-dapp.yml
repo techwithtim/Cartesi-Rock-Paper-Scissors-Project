@@ -1,0 +1,24 @@
+# yaml-language-server: =https://json.schemastore.org/github-workflow.json
+---
+name: "Build calculator DApp"
+on:
+    pull_request:
+        paths:
+            - "docker/**"
+            - "docker-compose*.yml"
+            - "base.hcl"
+            - ".github/workflows/dapp-build.yml"
+            - ".github/workflows/calculator-dapp.yml"
+            - "calculator/**"
+            - "!**/*.md"
+    push:
+        tags:
+            - v*
+        branches:
+            - develop
+jobs:
+    build:
+        uses: ./.github/workflows/dapp-build.yml
+        with:
+            dapp-name: calculator
+        secrets: inherit
