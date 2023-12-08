@@ -15,7 +15,6 @@ This DApp's back-end is written in Python, so to run it in your machine you need
 In order to start the back-end, run the following commands in a dedicated terminal:
 
 ```shell
-cd echo-python/
 python3 -m venv .venv
 . .venv/bin/activate
 pip install -r requirements.txt
