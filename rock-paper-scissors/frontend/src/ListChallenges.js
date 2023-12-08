@@ -25,6 +25,7 @@ function ListChallenges({ signer }) {
         let results;
         results = await inspect({ method: "get_challenges" });
         results = JSON.parse(hex2str(results[0].payload))["challenges"];
+        console.log(results)
 
         const currentChallenges = [];
         let myChallenge = undefined;

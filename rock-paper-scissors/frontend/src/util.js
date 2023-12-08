@@ -29,6 +29,7 @@ export const generateCommitment = async (choice, signer) => {
 };
 
 export const sendInput = async (value, signer, toast) => {
+    console.log(DAPP_ADDRESS)
     const inputBox = InputBox__factory.connect(INPUTBOX_ADDRESS, signer);
     const inputBytes = ethers.utils.isBytesLike(value)
         ? value
@@ -64,9 +65,10 @@ export const inspect = async (payload) => {
 
     if (response.status === 200) {
         const result = await response.json()
+        console.log(result.reports)
         return result.reports
     } else {
-        console.log(JSON.stringify(await response.text()));
+        console.log(await response.text());
     }
 }
 
